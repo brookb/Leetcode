@@ -1,0 +1,95 @@
+Group Shifted Strings My Submissions Question Solution 
+Total Accepted: 1835 Total Submissions: 7142 Difficulty: Easy
+Given a string, we can "shift" each of its letter to its successive letter, for example: "abc" -> "bcd". We can keep "shifting" which forms the sequence:
+
+"abc" -> "bcd" -> ... -> "xyz"
+Given a list of strings which contains only lowercase alphabets, group all strings that belong to the same shifting sequence.
+
+For example, given: ["abc", "bcd", "acef", "xyz", "az", "ba", "a", "z"], 
+Return:
+
+[
+  ["abc","bcd","xyz"],
+  ["az","ba"],
+  ["acef"],
+  ["a","z"]
+]
+
+
+
+
+
+public class Solution {
+    public List<List<String>> groupStrings(String[] strings) {
+        List<List<String>> res = new ArrayList<>();
+        Arrays.sort(strings);
+        //whenever I meet a string, I check if it has same length string already stored. if has, I get that one and  compare
+        for(int i =0; i < strings.length;i++){
+            String s = strings[i];
+            List<String> list = new ArrayList<>();
+            int size = res.size();
+            boolean add = false;
+            //find a right place to add s
+            for(int index = 0;index < size; index++){
+                list = res.get(index);
+                String s2 = list.get(0);
+                if(s2.length() != s.length())   continue;
+                int j = 1;
+                int dist = s.length()==0? 0 :s.charAt(0)-s2.charAt(0);
+                boolean negative = false;
+                if(dist<0){
+                    negative = true;
+                    dist +=26;
+                }
+                for(; j < s2.length();j++){
+                    if(s.charAt(j)-s2.charAt(j)!=dist&&s.charAt(j)+26-s2.charAt(j)!=dist)
+                        break;
+                }
+                if(j==s2.length()){
+                   list.add(s) ;
+                   res.set(index,list);
+                   add = true;
+                   break;
+                }
+            }
+            if(!add){
+                list = new ArrayList<>();                
+                list.add(s);
+                res.add(list);
+            }
+        }
+        return res;
+    }
+}
+
+
+
+https://leetcode.com/discuss/50358/my-concise-java-solution
+public class Solution {
+    public List<List<String>> groupStrings(String[] strings) {
+        List<List<String>> result = new ArrayList<List<String>>();
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        for (String str : strings) {
+            int offset = str.charAt(0) - 'a';
+            String key = "";
+            for (int i = 0; i < str.length(); i++) {
+                char c = (char) (str.charAt(i) - offset);
+                if (c < 'a') {
+                    c += 26;
+                }
+                key += c;
+            }
+            if (!map.containsKey(key)) {
+                List<String> list = new ArrayList<String>();
+                map.put(key, list);
+            }
+            map.get(key).add(str);
+        }
+        for (String key : map.keySet()) {
+            List<String> list = map.get(key);
+            Collections.sort(list);
+            result.add(list);
+        }
+        return result;
+    }
+}
