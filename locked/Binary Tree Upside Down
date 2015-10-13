@@ -1,0 +1,55 @@
+Binary Tree Upside Down My Submissions Question Solution 
+Total Accepted: 4835 Total Submissions: 13862 Difficulty: Medium
+Given a binary tree where all the right nodes are either leaf nodes with a sibling (a left node that shares the same parent node) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root.
+
+For example:
+Given a binary tree {1,2,3,4,5},
+    1
+   / \
+  2   3
+ / \
+4   5
+return the root of the binary tree [4,5,2,#,#,3,1].
+   4
+  / \
+ 5   2
+    / \
+   3   1  
+confused what "{1,#,2,3}" means? > read more on how binary tree is serialized on OJ.
+
+
+
+
+
+
+
+
+
+
+
+
+
+public class Solution {
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        //left node become the root, and right node become the left node
+        //root's left become new root, root becomes the right node of the root, right become the left node;
+        //look at the example: it's postorder traversal
+        if(root==null||root.left==null)return root;
+        TreeNode cur = root;
+        while(cur.left!=null)cur= cur.left;
+        TreeNode newroot = cur;
+        postorder( root);
+        return newroot;
+        
+    }
+    public TreeNode postorder(TreeNode root){
+        if(root==null||root.left==null)return root;
+        TreeNode newroot = null;
+        newroot = postorder(root.left);
+        newroot.left = postorder(root.right);
+        newroot.right = root;
+        root.left = null;root.right=null;
+        return root;
+
+    }
+}
