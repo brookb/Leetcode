@@ -1,0 +1,38 @@
+Paint House My Submissions Question Solution 
+Total Accepted: 1852 Total Submissions: 4795 Difficulty: Medium
+There are a row of n houses, each house can be painted with one of the three colors: red, blue or green. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.
+
+The cost of painting each house with a certain color is represented by a n x 3 cost matrix. For example, costs[0][0] is the cost of painting house 0 with color red; costs[1][2] is the cost of painting house 1 with color green, and so on... Find the minimum cost to paint all houses.
+
+Note:
+All costs are positive integers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public class Solution {
+    public int minCost(int[][] costs) {
+        int m = costs.length;
+        if( m == 0) return 0;
+        int n = costs[0].length;
+        int[][] dp = new int[m][n];
+        for(int i = 0; i < n ; i++)
+            dp[0][i] = costs[0][i];
+        for(int i = 1; i < m; i ++){
+            for(int j = 0; j  < 3; j ++){
+                dp[i][j] = Math.min(dp[i-1][j-1==-1?2:j-1],dp[i-1][(j+1)%3]) + costs[i][j];
+            }
+        }
+    return Math.min(Math.min(dp[m-1][0],dp[m-1][1]),dp[m-1][2]);       
+    }
+}
