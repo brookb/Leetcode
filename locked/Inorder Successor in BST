@@ -47,3 +47,6 @@ public class Solution {
         return cur;
     }
 }
+
+
+https://leetcode.com/discuss/59728/10-and-4-lines-o-h-java-c
