@@ -1,0 +1,34 @@
+
+
+
+
+One Edit Distance My Submissions Question Solution 
+Total Accepted: 5228 Total Submissions: 20652 Difficulty: Medium
+Given two strings S and T, determine if they are both one edit distance apart.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+for (int i = 0; i < Math.min(s.length(), t.length()); i++) {
+    if (s.charAt(i) != t.charAt(i)) {
+        return s.substring(i + (s.length() >= t.length() ? 1 : 0)).equals(t.substring(i + (s.length() <= t.length() ? 1 : 0)));
+    }
+}
+return Math.abs(s.length() - t.length()) == 1;
