@@ -1,0 +1,38 @@
+Meeting Rooms II My Submissions Question Solution 
+Total Accepted: 2071 Total Submissions: 7101 Difficulty: Medium
+Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
+
+For example,
+Given [[0, 30],[5, 10],[15, 20]],
+return 2.
+
+
+]
+public class Solution {
+    public int minMeetingRooms(Interval[] intervals) {
+        Arrays.sort(intervals,new Comparator<Interval>(){
+            @Override public  int compare(Interval i1, Interval i2){
+                if(i1.start < i2.start)
+                    return -1;
+                if(i1.start > i2.start)
+                    return 1;
+                return 0;
+            }
+        });
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0 ; i < intervals.length; i++){
+            int end = intervals[i].end;
+            int j = 0, size = list.size();
+            for(;j < size;j++){
+                if(list.get(j) <= intervals[i].start){
+                    list.set(j,end);
+                    break;
+                    
+                }
+            }
+            if(j==list.size())
+                list.add(end);
+        }
+        return list.size();
+    }
+}
