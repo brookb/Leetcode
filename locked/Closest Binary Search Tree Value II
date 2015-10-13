@@ -1,0 +1,120 @@
+Closest Binary Search Tree Value II My Submissions Question Solution 
+Total Accepted: 1461 Total Submissions: 5421 Difficulty: Hard
+Given a non-empty binary search tree and a target value, find k values in the BST that are closest to the target.
+
+Note:
+Given target value is a floating point.
+You may assume k is always valid, that is: k ≤ total nodes.
+You are guaranteed to have only one unique set of k values in the BST that are closest to the target.
+Follow up:
+Assume that the BST is balanced, could you solve it in less than O(n) runtime (where n = total nodes)?
+
+
+
+
+
+
+
+
+
+
+
+
+
+HINT
+Hint:
+
+Consider implement these two helper functions:
+getPredecessor(N), which returns the next smaller node to N.
+
+
+
+
+getSuccessor(N), which returns the next larger node to N.
+
+
+
+
+
+
+
+
+Try to assume that each node has a parent pointer, it makes the problem much easier.
+
+
+
+
+
+
+
+Without parent pointer we just need to keep track of the path from the root to the current node using a stack.
+
+
+
+
+
+
+
+
+You would need two stacks to track the path in finding predecessor and successor node separately.
+
+
+
+
+
+https://leetcode.com/discuss/55486/java-two-stacks-iterative-solution
+public List<Integer> closestKValues(TreeNode root, double target, int k) {
+    Deque<TreeNode> bigger = new ArrayDeque<TreeNode>();
+    Deque<TreeNode> smaller = new ArrayDeque<TreeNode>();
+    TreeNode node = root;
+    // log(n)
+    while(node != null)
+    {
+        if(node.val > target)
+        {
+            bigger.push(node);
+            node = node.left;
+        }
+        else
+        {
+            smaller.push(node);
+            node = node.right;
+        }
+    }
+
+    // k
+    List<Integer> ret = new ArrayList<Integer>();
+    while(ret.size() < k)
+    {
+        if(bigger.isEmpty() ||
+           !smaller.isEmpty() &&
+            ((bigger.peek().val - target) > (target - smaller.peek().val)))
+        {
+            node = smaller.pop();
+            ret.add(node.val);
+
+            // Get next smaller
+            node = node.left;
+            while(node != null)
+            {
+                smaller.push(node);
+                node = node.right;
+            }
+        }
+        else
+        {
+            node = bigger.pop();
+            ret.add(node.val);
+
+            // get next bigger
+            node = node.right;
+            while(node != null)
+            {
+                bigger.push(node);
+                node = node.left;
+            }                
+        }
+    }
+
+    return ret;
+}
