@@ -1,0 +1,121 @@
+Palindrome Permutation II My Submissions Question Solution 
+Total Accepted: 1366 Total Submissions: 5991 Difficulty: Medium
+Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.
+
+For example:
+
+Given s = "aabb", return ["abba", "baab"].
+
+Given s = "abc", return [].
+
+Hint:
+
+If a palindromic permutation exists, we just need to generate the first half of the string.
+To generate all distinct permutations of a (half of) string, use a similar approach from: Permutations II or Next Permutation.
+
+
+public class Solution {
+    public List<String> generatePalindromes(String s) {
+        List<String> res = new ArrayList<>();
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i = 0 ; i < s.length(); i++){
+            char key = s.charAt(i);
+            if(map.containsKey(key))
+                map.put(key,map.get(key)+1);
+            else
+                map.put(key,1);
+        }
+        char single = ' ';
+        StringBuilder sb = new StringBuilder();
+        for(Character key : map.keySet()){
+            if(map.get(key)%2!=0){
+                if(single!=' ')
+                    return res;
+                single = key;
+            }
+        }
+        if(single!=' '){
+            sb.append(single);
+            if(map.get(single)==1)  map.remove(single);
+            else    map.put(single,map.get(single)-1);
+        }
+         helper(sb,s.length(),res,map);
+         return res;
+    }
+    public void helper(StringBuilder sb, int len,List<String> res,HashMap<Character,Integer>map){
+        if(sb.length() == len){
+            res.add(sb.toString());
+            return;
+        }
+        for(Character key : map.keySet()){
+            sb.insert(0,key);
+            sb.append(key);
+            HashMap<Character,Integer> map2 =(HashMap<Character,Integer>) map.clone();
+            if(map2.get(key)==2)  map2.remove(key);
+            else    map2.put(key,map2.get(key)-1);
+            helper(sb,len,res,map2);
+            sb.deleteCharAt(0);
+            sb.deleteCharAt(sb.length()-1);
+        }
+  My Submissions Question Solution 
+Total Accepted: 1365 Total Submissions: 5988 Difficulty: Medium
+Given a string s, return all the palindromic permutations (without duplicates) of it. Return an empty list if no palindromic permutation could be form.
+
+For example:
+
+Given s = "aabb", return ["abba", "baab"].
+
+Given s = "abc", return [].
+
+Hint:
+
+If a palindromic permutation exists, we just need to generate the first half of the string.
+To generate all distinct permutations of a (half of) string, use a similar approach from: Permutations II or Next Permutation.
+
+
+
+
+public class Solution {
+    public List<String> generatePalindromes(String s) {
+        List<String> res = new ArrayList<>();
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i = 0 ; i < s.length(); i++){
+            char key = s.charAt(i);
+            if(map.containsKey(key))
+                map.put(key,map.get(key)+1);
+            else
+                map.put(key,1);
+        }
+        char single = ' ';
+        StringBuilder sb = new StringBuilder();
+        for(Character key : map.keySet()){
+            if(map.get(key)%2!=0){
+                if(single!=' ')
+                    return res;
+                single = key;
+            }
+        }
+        if(single!=' '){
+            sb.append(single);
+            if(map.get(single)==1)  map.remove(single);
+            else    map.put(single,map.get(single)-1);
+        }
+         helper(sb,s.length(),res,map);
+         return res;
+    }
+    public void helper(StringBuilder sb, int len,List<String> res,HashMap<Character,Integer>map){
+        if(sb.length() == len){
+            res.add(sb.toString());
+            return;
+        }
+        for(Character key : map.keySet()){
+            sb.insert(0,key);
+            sb.append(key);
+            HashMap<Character,Integer> map2 =(HashMap<Character,Integer>) map.clone();
+            if(map2.get(key)==2)  map2.remove(key);
+            else    map2.put(key,map2.get(key)-1);
+            helper(sb,len,res,map2);
+            sb.deleteCharAt(0);
+            sb.deleteCharAt(sb.length()-1);
+        }
+ 
